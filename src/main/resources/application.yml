@@ -1,0 +1,18 @@
+spring:
+    application:
+        name: QuizzApp
+    data:
+        mongodb:
+            username: ${MONGO_INITDB_ROOT_USERNAME}
+            password: ${MONGO_INITDB_ROOT_PASSWORD}
+            host: ${MONGO_HOST:localhost}
+            port: ${MONGO_PORT:27017}
+            database: quizz_app_mongo
+            authentication-database: ${MONGO_AUTH_DB:admin}
+    datasource:
+        url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB}
+        username: ${POSTGRES_USER}
+        password: ${POSTGRES_PASSWORD}
+
+server:
+    port: ${SERVER_PORT:8080}
