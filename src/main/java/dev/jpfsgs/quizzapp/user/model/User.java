@@ -9,21 +9,22 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name="\"user\"")
 public class User {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "username")
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "nome", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "hashed_password")
+    @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 
     @Column(name = "active")
     private Boolean active;
-
 
 }

@@ -74,3 +74,62 @@ A aplicação adota **Test-Driven Development (TDD)** para garantir qualidade e 
 - Implementar um sistema de pontuação para jogadores.
 - Suporte a jogos em tempo real com WebSocket.
 - Funcionalidades de analytics para quizzes (estatísticas e desempenho).
+
+---
+
+### Checklist de Funcionalidades
+
+#### **1. CRUD de Usuários**
+- [ ] Criação de usuários (com restrições e validações apropriadas).
+- [ ] Leitura de dados do usuário autenticado.
+- [ ] Atualização dos dados do próprio usuário.
+- [ ] Exclusão de conta de usuário.
+
+#### **2. Autenticação de Usuários**
+- [ ] Registro de novos usuários (com validação de dados).
+- [ ] Login com geração de tokens JWT.
+- [ ] Middleware/Interceptor para validação de usuários autenticados.
+- [ ] Endpoint para atualização de senha.
+- [ ] Logout (revogação de tokens, se necessário).
+
+#### **3. CRUD de Quizzes**
+- [ ] Criação de quizzes:
+    - [ ] Validação para que apenas usuários autenticados possam criar.
+    - [ ] Estrutura básica do quiz: título, descrição, perguntas e respostas.
+- [ ] Leitura de quizzes:
+    - [ ] Retornar lista de quizzes públicos.
+    - [ ] Retornar detalhes de um quiz específico.
+- [ ] Atualização de quizzes:
+    - [ ] Restringir edição apenas ao criador do quiz.
+- [ ] Exclusão de quizzes:
+    - [ ] Garantir que somente o criador possa deletar seu quiz.
+
+#### **4. Jogar Quizzes**
+- [ ] Endpoint para iniciar um quiz.
+- [ ] Validação das respostas do jogador.
+- [ ] Retorno de pontuação e/ou resultados ao final do quiz.
+
+#### **5. Integração com Banco de Dados**
+- [ ] Configuração do PostgreSQL para armazenamento de usuários.
+- [ ] Configuração do MongoDB para armazenamento de quizzes.
+
+#### **6. Testes Automatizados**
+- [ ] Testes unitários para serviços e regras de negócio:
+    - [ ] Autenticação.
+    - [ ] Validação de permissões (CRUD).
+- [ ] Testes de integração para endpoints:
+    - [ ] Autenticação e controle de acesso.
+    - [ ] CRUD de usuários.
+    - [ ] CRUD de quizzes.
+- [ ] Testes de regressão para evitar quebra de funcionalidades existentes.
+
+#### **7. Configurações Gerais**
+- [ ] Configuração de variáveis de ambiente para credenciais e tokens.
+- [ ] Configuração de Docker para ambientes de desenvolvimento.
+- [ ] Logs básicos para rastreamento de erros e sucesso.
+- [ ] Documentação da API com Swagger ou OpenAPI.
+
+#### **8. Funcionalidades Futuras (Extras)**
+- [ ] Sistema de pontuação para usuários autenticados.
+- [ ] Rankings ou placares globais.
+- [ ] Integração com WebSocket para quizzes em tempo real.

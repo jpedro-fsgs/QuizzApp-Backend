@@ -13,6 +13,9 @@ spring:
         url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB}
         username: ${POSTGRES_USER}
         password: ${POSTGRES_PASSWORD}
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
 
 server:
     port: ${SERVER_PORT:8080}
