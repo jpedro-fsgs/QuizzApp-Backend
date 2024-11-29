@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test_quizz_db
+  mongodb:
+    embedded:
+      version: 4.0.21
+
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+    de.flapdoodle: DEBUG
