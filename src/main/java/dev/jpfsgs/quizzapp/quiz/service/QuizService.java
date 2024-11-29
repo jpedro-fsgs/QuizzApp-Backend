@@ -1,5 +1,6 @@
 package dev.jpfsgs.quizzapp.quiz.service;
 
+import dev.jpfsgs.quizzapp.quiz.dto.CreateQuizDTO;
 import dev.jpfsgs.quizzapp.quiz.model.Quiz;
 import dev.jpfsgs.quizzapp.quiz.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class QuizService {
         return quizRepository.findAll();
     }
 
-    public Quiz save(Quiz quiz) {
+    public Quiz save(CreateQuizDTO quizDTO) {
+        Quiz quiz = quizDTO.toQuiz();
         return quizRepository.save(quiz);
     }
 }
