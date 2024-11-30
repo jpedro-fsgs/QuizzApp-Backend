@@ -18,8 +18,8 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nome", nullable = false, unique = true)
-    private String username;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
 
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;

@@ -1,7 +1,10 @@
 package dev.jpfsgs.quizzapp.user.service;
 
-import dev.jpfsgs.quizzapp.user.dto.request.CreateUserDTO;
+import dev.jpfsgs.quizzapp.user.dto.mapper.UserMapper;
+import dev.jpfsgs.quizzapp.user.dto.request.RegisterUserDTO;
+import dev.jpfsgs.quizzapp.user.dto.response.UserDTO;
 import dev.jpfsgs.quizzapp.user.exception.custom.UserAlreadyExistsException;
+import dev.jpfsgs.quizzapp.user.exception.custom.UserNotFoundException;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,30 +18,41 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+        return userRepository.findAll().stream().map(userMapper::toUserDTO).toList();
     }
 
-    public Optional<User> getUserById(UUID id) {
-        return userRepository.findById(id);
+    public UserDTO getUserById(UUID id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return userMapper.toUserDTO(user.get());
     }
 
-    public Optional<User> getUserByEmail(String username) {
-        return userRepository.findByEmail(username);
+    public UserDTO getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return userMapper.toUserDTO(user.get());
     }
 
-    public User createUser(CreateUserDTO user) {
+    public UserDTO registerUser(RegisterUserDTO user) {
         Optional<User> existentUser = userRepository.findByEmail(user.email());
-        if(existentUser.isPresent()) {
+        if (existentUser.isPresent()) {
             throw new UserAlreadyExistsException("User already exists");
         }
 
-        User newUser = new User();
-        newUser.setEmail(user.email());
+        User newUser = userMapper.toUser(user);
+
         //TODO adicionar criptografia da senha
         newUser.setHashedPassword(user.password());
         newUser.setActive(true);
-        return userRepository.save(newUser);
+        return userMapper.toUserDTO(userRepository.save(newUser));
     }
 }

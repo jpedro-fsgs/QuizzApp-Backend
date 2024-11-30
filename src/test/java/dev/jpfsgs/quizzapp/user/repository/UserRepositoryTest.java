@@ -18,7 +18,7 @@ public class UserRepositoryTest {
     @Test
     void shouldSaveAndFindUserByUsername() {
         User user = new User();
-        user.setUsername("myoui_mina");
+        user.setEmail("myoui_mina");
         user.setHashedPassword("chaeng");
         user.setActive(true);
         userRepository.save(user);
@@ -32,7 +32,7 @@ public class UserRepositoryTest {
     @Test
     void shouldSaveAndDeleteUser() {
         User user = new User();
-        user.setUsername("myoui_mina");
+        user.setEmail("myoui_mina");
         user.setHashedPassword("chaeng");
         user.setActive(true);
         userRepository.save(user);
@@ -48,7 +48,7 @@ public class UserRepositoryTest {
     @Test
     void shouldDeleteUserAfterEdit() {
         User user = new User();
-        user.setUsername("myoui_mina");
+        user.setEmail("myoui_mina");
         user.setHashedPassword("chaeng");
         user.setActive(true);
 
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
         assertTrue(userOptional.isPresent());
         UUID userId = userOptional.get().getId();
 
-        userOptional.get().setUsername("sharon_myoui");
+        userOptional.get().setEmail("sharon_myoui");
         userRepository.save(userOptional.get());
 
         Optional<User> userOptional2 = userRepository.findByEmail("myoui_mina");
