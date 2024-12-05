@@ -1,15 +1,16 @@
-package dev.jpfsgs.quizzapp.user.exception;
+package dev.jpfsgs.quizzapp.exception;
+
+import lombok.Getter;
 
 import java.time.Instant;
 
+@Getter
 public class ErrorDetails{
         Instant timestamp;
         String message;
-        String details;
 
-        public ErrorDetails(String message, String details) {
+        public ErrorDetails(String message) {
             this.timestamp = Instant.now();
             this.message = message;
-            this.details = details;
         }
 }

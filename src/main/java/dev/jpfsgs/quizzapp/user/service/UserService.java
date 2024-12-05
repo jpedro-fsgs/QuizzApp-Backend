@@ -3,11 +3,12 @@ package dev.jpfsgs.quizzapp.user.service;
 import dev.jpfsgs.quizzapp.user.dto.mapper.UserMapper;
 import dev.jpfsgs.quizzapp.user.dto.request.RegisterUserDTO;
 import dev.jpfsgs.quizzapp.user.dto.response.UserDTO;
-import dev.jpfsgs.quizzapp.user.exception.custom.UserAlreadyExistsException;
-import dev.jpfsgs.quizzapp.user.exception.custom.UserNotFoundException;
+import dev.jpfsgs.quizzapp.user.customexception.UserAlreadyExistsException;
+import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(userMapper::toUserDTO).toList();
@@ -50,8 +52,7 @@ public class UserService {
 
         User newUser = userMapper.toUser(user);
 
-        //TODO adicionar criptografia da senha
-        newUser.setHashedPassword(user.password());
+        newUser.setHashedPassword(passwordEncoder.encode(user.password()));
         newUser.setActive(true);
         return userMapper.toUserDTO(userRepository.save(newUser));
     }

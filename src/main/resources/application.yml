@@ -1,3 +1,8 @@
+jwt:
+    private:
+        key: classpath:app.key
+    public:
+        key: classpath:app.pub
 spring:
     application:
         name: QuizzApp
@@ -15,12 +20,8 @@ spring:
         password: ${POSTGRES_PASSWORD}
     jpa:
         hibernate:
-            ddl-auto: create-drop
-jwt:
-    private:
-        key: classpath:app.key
-    public:
-        key: classpath:app.pub
+            ddl-auto: update
+
 server:
     port: ${SERVER_PORT:8080}
 springdoc:

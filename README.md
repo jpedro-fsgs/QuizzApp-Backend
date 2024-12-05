@@ -80,7 +80,7 @@ A aplicação adota **Test-Driven Development (TDD)** para garantir qualidade e 
 ### Checklist de Funcionalidades
 
 #### **1. CRUD de Usuários**
-- [ ] Criação de usuários (com restrições e validações apropriadas).
+- [x] Criação de usuários (com restrições e validações apropriadas).
 - [ ] Leitura de dados do usuário autenticado.
 - [ ] Atualização dos dados do próprio usuário.
 - [ ] Exclusão de conta de usuário.
