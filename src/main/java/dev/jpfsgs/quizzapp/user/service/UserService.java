@@ -27,21 +27,19 @@ public class UserService {
     }
 
     public UserDTO getUserById(UUID id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException("User not found")
+        );
 
-        return userMapper.toUserDTO(user.get());
+        return userMapper.toUserDTO(user);
     }
 
     public UserDTO getUserByEmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new UserNotFoundException("User not found")
+        );
 
-        return userMapper.toUserDTO(user.get());
+        return userMapper.toUserDTO(user);
     }
 
     public UserDTO registerUser(RegisterUserDTO user) {
