@@ -1,5 +1,6 @@
 package dev.jpfsgs.quizzapp.exception;
 
+import dev.jpfsgs.quizzapp.quiz.customexception.QuizNotFoundException;
 import dev.jpfsgs.quizzapp.user.customexception.UserAlreadyExistsException;
 import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        ErrorDetails errorDetails = new ErrorDetails("Failed Validation");
+        ErrorDetails errorDetails = new ErrorDetails(ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage());
+//        ErrorDetails errorDetails = new ErrorDetails("Failed Validation");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 
@@ -34,5 +36,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetails> handleBadCredentialsException(BadCredentialsException ex) {
         ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDetails);
+    }
+
+    @ExceptionHandler(QuizNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleQuizNotFoundException(QuizNotFoundException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
     }
 }
