@@ -8,6 +8,8 @@ import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
+    Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(userMapper::toUserDTO).toList();
@@ -52,6 +56,8 @@ public class UserService {
 
         newUser.setHashedPassword(passwordEncoder.encode(user.password()));
         newUser.setActive(true);
-        return userMapper.toUserDTO(userRepository.save(newUser));
+        userRepository.save(newUser);
+        logger.info("New user created: {}, Id: {}", newUser.getName(), newUser.getId());
+        return userMapper.toUserDTO(newUser);
     }
 }

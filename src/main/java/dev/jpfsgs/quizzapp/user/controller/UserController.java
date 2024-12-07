@@ -20,11 +20,6 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/")
-    public String index() {
-        return "Hello User";
-    }
-
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> all() {
         List<UserDTO> users = userService.findAll();

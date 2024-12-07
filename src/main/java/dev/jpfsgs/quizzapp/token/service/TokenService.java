@@ -5,6 +5,8 @@ import dev.jpfsgs.quizzapp.token.dto.response.LoginResponseDTO;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +16,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class TokenService {
     private final UserRepository userRepository;
     private final JwtEncoder jwtEncoder;
     private final PasswordEncoder passwordEncoder;
+
+    Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     @Value("${spring.application.name}")
     private String appName;
@@ -31,6 +34,7 @@ public class TokenService {
                 () -> new BadCredentialsException("Invalid email or password")
         );
         if (!passwordEncoder.matches(loginRequestDTO.password(), user.getHashedPassword())) {
+            logger.warn("Login failed for email: {}", loginRequestDTO.email());
             throw new BadCredentialsException("Invalid email or password");
         }
 
@@ -45,6 +49,7 @@ public class TokenService {
                 .build();
 
         String jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        logger.info("Login successful for email: {}", loginRequestDTO.email());
 
         return new LoginResponseDTO(jwtValue, user.getId(), user.getEmail(), user.getName(), expiresIn);
     }

@@ -10,6 +10,8 @@ import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,8 @@ public class QuizService {
     private final QuizRepository quizRepository;
     private final QuizMapper quizMapper;
     private final UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(QuizService.class);
 
     public QuizDTO findById(String id) {
         Quiz quiz = quizRepository.findById(id).orElseThrow(
@@ -65,6 +69,8 @@ public class QuizService {
                 () -> new UserNotFoundException("User not found")
         );
         quiz.setUserId(user.getId());
-        return quizMapper.toQuizDTO(quizRepository.save(quiz));
+        quizRepository.save(quiz);
+        logger.info("Quiz saved: {}, Id: {}", quiz.getTitle(), quiz.getId());
+        return quizMapper.toQuizDTO(quiz);
     }
 }

@@ -18,11 +18,6 @@ import java.util.UUID;
 public class QuizController {
     private final QuizService quizService;
 
-    @GetMapping("/")
-    public String index() {
-        return "Hello Quiz";
-    }
-
     @GetMapping("/all")
     public List<QuizDTO> getAll() {
         return quizService.findAll();
@@ -42,7 +37,6 @@ public class QuizController {
     @PostMapping("/create")
     public QuizDTO createQuiz(@RequestBody CreateQuizDTO quiz, JwtAuthenticationToken token) {
         UUID userId = UUID.fromString(token.getName());
-        System.out.println("oi?");
         return quizService.save(quiz, userId);
     }
 }
