@@ -3,6 +3,7 @@ package dev.jpfsgs.quizzapp.exception;
 import dev.jpfsgs.quizzapp.quiz.customexception.QuizNotFoundException;
 import dev.jpfsgs.quizzapp.user.customexception.UserAlreadyExistsException;
 import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,8 +28,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        ErrorDetails errorDetails = new ErrorDetails(ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage());
-//        ErrorDetails errorDetails = new ErrorDetails("Failed Validation");
+        ErrorDetails errorDetails = new ErrorDetails(ex.getBindingResult().getAllErrors()
+                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 
