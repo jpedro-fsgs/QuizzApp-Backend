@@ -12,6 +12,7 @@ import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -73,4 +74,23 @@ public class QuizService {
         logger.info("Quiz saved: {}, Id: {}", quiz.getTitle(), quiz.getId());
         return quizMapper.toQuizDTO(quiz);
     }
+
+    public void deleteQuizById(String quizId, UUID userId) {
+        System.out.println("1");
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("User not found")
+        );
+        System.out.println("2");
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(
+                () -> new QuizNotFoundException("Quiz not found")
+        );
+        System.out.println("3");
+        if (!quiz.getUserId().equals(user.getId())) {
+            throw new AccessDeniedException("Access denied");
+        }
+        System.out.println("4");
+        quizRepository.delete(quiz);
+        logger.info("Quiz deleted: Id: {}", quizId);
+    }
+
 }

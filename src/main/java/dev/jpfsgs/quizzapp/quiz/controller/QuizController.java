@@ -5,6 +5,7 @@ import dev.jpfsgs.quizzapp.quiz.dto.response.QuizDTO;
 import dev.jpfsgs.quizzapp.quiz.service.QuizService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,4 +40,12 @@ public class QuizController {
         UUID userId = UUID.fromString(token.getName());
         return quizService.save(quiz, userId);
     }
+    
+    @DeleteMapping("/{id}")
+    public void deleteQuiz(@PathVariable String id, JwtAuthenticationToken token) {
+        UUID userId = UUID.fromString(token.getName());
+        quizService.deleteQuizById(id, userId);
+    }
+    
+    
 }

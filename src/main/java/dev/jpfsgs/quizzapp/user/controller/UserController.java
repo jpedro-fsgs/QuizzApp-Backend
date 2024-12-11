@@ -21,8 +21,15 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> all() {
+    public ResponseEntity<List<UserDTO>> allUsers() {
         List<UserDTO> users = userService.findAll();
+        HttpStatus status = users.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
+        return ResponseEntity.status(status).body(users);
+    }
+
+    @GetMapping("/all/active")
+    public ResponseEntity<List<UserDTO>> allActiveUsers() {
+        List<UserDTO> users = userService.findActiveUsers();
         HttpStatus status = users.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK;
         return ResponseEntity.status(status).body(users);
     }
@@ -30,6 +37,11 @@ public class UserController {
     @GetMapping("/{id}")
     public UserDTO findById(@PathVariable String id) {
         return userService.getUserById(UUID.fromString(id));
+    }
+
+    @GetMapping("/{email}")
+    public UserDTO findByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
     }
 
     @PostMapping("/register")
