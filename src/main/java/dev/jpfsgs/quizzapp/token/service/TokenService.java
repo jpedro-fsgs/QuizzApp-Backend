@@ -38,6 +38,11 @@ public class TokenService {
             throw new BadCredentialsException("Invalid email or password");
         }
 
+        if(!user.getActive()){
+            logger.warn("Login failed for email: {}", loginRequestDTO.email());
+            throw new BadCredentialsException("User is not active");
+        }
+
         Instant now = Instant.now();
         long expiresIn = 9000L;
 

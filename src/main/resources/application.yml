@@ -1,3 +1,5 @@
+allowed:
+    origins: ${ALLOWED_ORIGINS}
 jwt:
     private:
         key: classpath:app.key
@@ -6,6 +8,8 @@ jwt:
 spring:
     application:
         name: QuizzApp
+    config:
+        import: optional:file:.env[.properties]
     data:
         mongodb:
             username: ${MONGO_INITDB_ROOT_USERNAME}

@@ -5,7 +5,6 @@ import dev.jpfsgs.quizzapp.quiz.dto.response.QuizDTO;
 import dev.jpfsgs.quizzapp.quiz.service.QuizService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
