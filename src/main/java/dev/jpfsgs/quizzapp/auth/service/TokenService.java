@@ -1,7 +1,7 @@
-package dev.jpfsgs.quizzapp.token.service;
+package dev.jpfsgs.quizzapp.auth.service;
 
-import dev.jpfsgs.quizzapp.token.dto.request.LoginRequestDTO;
-import dev.jpfsgs.quizzapp.token.dto.response.LoginResponseDTO;
+import dev.jpfsgs.quizzapp.auth.dto.request.LoginRequestDTO;
+import dev.jpfsgs.quizzapp.auth.dto.response.LoginResponseDTO;
 import dev.jpfsgs.quizzapp.user.model.User;
 import dev.jpfsgs.quizzapp.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package dev.jpfsgs.quizzapp.token.dto.request;
+package dev.jpfsgs.quizzapp.auth.dto.request;
 
 public record LoginRequestDTO(
         String email,

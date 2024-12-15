@@ -28,10 +28,3 @@ spring:
 
 server:
     port: ${SERVER_PORT:8080}
-springdoc:
-    api-docs:
-        enabled: true
-        path: /api-docs
-    swagger-ui:
-        enabled: true
-        path: /swagger-ui

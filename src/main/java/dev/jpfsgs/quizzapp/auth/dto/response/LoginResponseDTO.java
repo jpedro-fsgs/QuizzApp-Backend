@@ -1,4 +1,4 @@
-package dev.jpfsgs.quizzapp.token.dto.response;
+package dev.jpfsgs.quizzapp.auth.dto.response;
 
 import java.util.UUID;
 
