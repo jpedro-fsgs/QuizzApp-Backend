@@ -6,7 +6,6 @@ import java.util.List;
 
 @Data
 public class CreateQuizDTO {
-    private String userId;
     private String title;
     private String description;
     private List<QuestionDTO> questions;

@@ -4,6 +4,7 @@ import dev.jpfsgs.quizzapp.quiz.customexception.QuizNotFoundException;
 import dev.jpfsgs.quizzapp.quiz.dto.mapper.QuizMapper;
 import dev.jpfsgs.quizzapp.quiz.dto.request.CreateQuizDTO;
 import dev.jpfsgs.quizzapp.quiz.dto.response.QuizDTO;
+import dev.jpfsgs.quizzapp.quiz.dto.response.QuizInfoDTO;
 import dev.jpfsgs.quizzapp.quiz.model.Quiz;
 import dev.jpfsgs.quizzapp.quiz.repository.QuizRepository;
 import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
@@ -38,10 +39,10 @@ public class QuizService {
         return quizDTO;
     }
 
-    public List<QuizDTO> findAll() {
+    public List<QuizInfoDTO> findAll() {
         return quizRepository.findAll()
                 .stream().map(quiz -> {
-                    QuizDTO quizDTO = quizMapper.toQuizDTO(quiz);
+                    QuizInfoDTO quizDTO = quizMapper.toQuizInfoDTO(quiz);
                     userRepository.findById(quiz.getUserId())
                             .ifPresent(value -> quizDTO.setUser(value.getName()));
                     return quizDTO;

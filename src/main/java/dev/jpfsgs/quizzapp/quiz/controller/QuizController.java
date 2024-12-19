@@ -4,6 +4,7 @@ import dev.jpfsgs.quizzapp.config.SecurityConfig;
 import dev.jpfsgs.quizzapp.exception.ErrorDetails;
 import dev.jpfsgs.quizzapp.quiz.dto.request.CreateQuizDTO;
 import dev.jpfsgs.quizzapp.quiz.dto.response.QuizDTO;
+import dev.jpfsgs.quizzapp.quiz.dto.response.QuizInfoDTO;
 import dev.jpfsgs.quizzapp.quiz.service.QuizService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,7 +31,7 @@ public class QuizController {
     @GetMapping("/all")
     @Operation(summary = "Get all quizzes", description = "Retrieve a list of all quizzes.")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of quizzes.")
-    public List<QuizDTO> getAll() {
+    public List<QuizInfoDTO> getAll() {
         return quizService.findAll();
     }
 
