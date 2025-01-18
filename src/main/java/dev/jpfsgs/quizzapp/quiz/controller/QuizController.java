@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,7 @@ public class QuizController {
             mediaType = "application/json",
             schema = @Schema(implementation = ErrorDetails.class)
     ))
-    public QuizDTO get(@PathVariable String id) {
+    public QuizDTO get(@PathVariable UUID id) {
         return quizService.findById(id);
     }
 
@@ -66,9 +68,9 @@ public class QuizController {
             mediaType = "application/json",
             schema = @Schema(implementation = ErrorDetails.class)
     ))
-    public QuizDTO createQuiz(@RequestBody CreateQuizDTO quiz, JwtAuthenticationToken token) {
+    public ResponseEntity<QuizDTO> createQuiz(@RequestBody CreateQuizDTO quiz, JwtAuthenticationToken token) {
         UUID userId = UUID.fromString(token.getName());
-        return quizService.save(quiz, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(quizService.save(quiz, userId));
     }
 
     @DeleteMapping("/{id}")
@@ -87,8 +89,9 @@ public class QuizController {
             mediaType = "application/json",
             schema = @Schema(implementation = ErrorDetails.class)
     ))
-    public void deleteQuiz(@PathVariable String id, JwtAuthenticationToken token) {
+    public ResponseEntity<Void> deleteQuiz(@PathVariable UUID id, JwtAuthenticationToken token) {
         UUID userId = UUID.fromString(token.getName());
         quizService.deleteQuizById(id, userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

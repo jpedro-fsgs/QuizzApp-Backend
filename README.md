@@ -30,16 +30,10 @@ O **Quiz API Backend** é a base para uma plataforma de quizzes interativa. Ele 
 
 - **Backend**: Spring Boot (Java 22)
 - **Banco de Dados**:
-    - PostgreSQL para armazenamento de usuários.
-    - MongoDB para armazenamento de quizzes.
+    - PostgreSQL para armazenamento de usuários e quizzes.
 - **Autenticação**: JWT (JSON Web Tokens) para controle de acesso seguro.
-- **Testes**: TDD implementado com foco em cobertura ampla e confiabilidade.
 
 ---
-
-## Testes e Boas Práticas
-
-A aplicação adota **Test-Driven Development (TDD)** para garantir qualidade e reduzir regressões. Todos os testes seguem as seguintes diretrizes:
 
 ### Tipos de Testes Implementados
 1. **Testes Unitários**:
@@ -110,8 +104,7 @@ A aplicação adota **Test-Driven Development (TDD)** para garantir qualidade e 
 - [ ] Retorno de pontuação e/ou resultados ao final do quiz.
 
 #### **5. Integração com Banco de Dados**
-- [ ] Configuração do PostgreSQL para armazenamento de usuários.
-- [ ] Configuração do MongoDB para armazenamento de quizzes.
+- [ ] Configuração do PostgreSQL para armazenamento de usuários e quizzes.
 
 #### **6. Testes Automatizados**
 - [ ] Testes unitários para serviços e regras de negócio:

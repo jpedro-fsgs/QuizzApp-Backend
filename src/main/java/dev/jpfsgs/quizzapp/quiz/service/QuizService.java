@@ -29,39 +29,28 @@ public class QuizService {
 
     Logger logger = LoggerFactory.getLogger(QuizService.class);
 
-    public QuizDTO findById(String id) {
+    public QuizDTO findById(UUID id) {
         Quiz quiz = quizRepository.findById(id).orElseThrow(
                 () -> new QuizNotFoundException("Quiz not found")
         );
-        QuizDTO quizDTO = quizMapper.toQuizDTO(quiz);
-        userRepository.findById(quiz.getUserId())
-                .ifPresent(value -> quizDTO.setUser(value.getName()));
-        return quizDTO;
+
+        return quizMapper.toQuizDTO(quiz);
     }
 
     public List<QuizInfoDTO> findAll() {
         return quizRepository.findAll()
-                .stream().map(quiz -> {
-                    QuizInfoDTO quizDTO = quizMapper.toQuizInfoDTO(quiz);
-                    userRepository.findById(quiz.getUserId())
-                            .ifPresent(value -> quizDTO.setUser(value.getName()));
-                    return quizDTO;
-                })
+                .stream().map(quizMapper::toQuizInfoDTO)
                 .toList();
     }
 
     public List<QuizDTO> findAllByUserId(UUID userId) {
-        String userName = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(
                         () -> new UserNotFoundException("User not found")
-                ).getName();
+                );
 
-        return quizRepository.findByUserId(userId)
-                .stream().map(quiz -> {
-                    QuizDTO quizDTO = quizMapper.toQuizDTO(quiz);
-                    quizDTO.setUser(userName);
-                    return quizDTO;
-                })
+        return user.getQuizzes()
+                .stream().map(quizMapper::toQuizDTO)
                 .toList();
     }
 
@@ -70,26 +59,20 @@ public class QuizService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserNotFoundException("User not found")
         );
-        quiz.setUserId(user.getId());
+        quiz.setUser(user);
         quizRepository.save(quiz);
         logger.info("Quiz saved: {}, Id: {}", quiz.getTitle(), quiz.getId());
         return quizMapper.toQuizDTO(quiz);
     }
 
-    public void deleteQuizById(String quizId, UUID userId) {
-        System.out.println("1");
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new UserNotFoundException("User not found")
-        );
-        System.out.println("2");
+    public void deleteQuizById(UUID quizId, UUID userId) {
+
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(
                 () -> new QuizNotFoundException("Quiz not found")
         );
-        System.out.println("3");
-        if (!quiz.getUserId().equals(user.getId())) {
+        if (!quiz.getUser().getId().equals(userId)) {
             throw new AccessDeniedException("Access denied");
         }
-        System.out.println("4");
         quizRepository.delete(quiz);
         logger.info("Quiz deleted: Id: {}", quizId);
     }

@@ -11,17 +11,5 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  mongo:
-    image: mongo:latest
-    container_name: quizzapp_mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    ports:
-      - "21017:27017"
-    volumes:
-      - mongo_data:/data/db
-
 volumes:
   postgres_data:
-  mongo_data:
