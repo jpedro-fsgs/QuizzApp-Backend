@@ -1,5 +1,6 @@
 package dev.jpfsgs.quizzapp.exception;
 
+import dev.jpfsgs.quizzapp.quiz.customexception.InvalidQuizException;
 import dev.jpfsgs.quizzapp.quiz.customexception.QuizNotFoundException;
 import dev.jpfsgs.quizzapp.user.customexception.UserAlreadyExistsException;
 import dev.jpfsgs.quizzapp.user.customexception.UserNotFoundException;
@@ -10,6 +11,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.io.InvalidClassException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -43,5 +46,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetails> handleQuizNotFoundException(QuizNotFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+    }
+
+    @ExceptionHandler(InvalidQuizException.class)
+    public ResponseEntity<ErrorDetails> handleInvalidClassException(InvalidQuizException ex) {
+        ErrorDetails errorDetails = new ErrorDetails(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 }

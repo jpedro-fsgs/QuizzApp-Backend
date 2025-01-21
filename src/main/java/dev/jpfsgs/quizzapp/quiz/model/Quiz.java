@@ -40,7 +40,6 @@ public class Quiz {
         public static class Option {
             private Integer index;
             private String option;
-            private Boolean isCorrect;
         }
     }
 }

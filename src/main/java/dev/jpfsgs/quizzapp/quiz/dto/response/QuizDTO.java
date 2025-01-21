@@ -23,7 +23,6 @@ public class QuizDTO {
         public static class Option {
             private Integer index;
             private String option;
-            private Boolean isCorrect;
         }
     }
 }

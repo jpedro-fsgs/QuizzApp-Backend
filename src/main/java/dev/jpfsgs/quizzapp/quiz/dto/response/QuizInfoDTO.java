@@ -1,8 +1,10 @@
 package dev.jpfsgs.quizzapp.quiz.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class QuizInfoDTO {
 
     private String id;
