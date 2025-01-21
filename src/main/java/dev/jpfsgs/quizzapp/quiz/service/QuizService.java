@@ -1,5 +1,6 @@
 package dev.jpfsgs.quizzapp.quiz.service;
 
+import dev.jpfsgs.quizzapp.quiz.customexception.InvalidQuizException;
 import dev.jpfsgs.quizzapp.quiz.customexception.QuizNotFoundException;
 import dev.jpfsgs.quizzapp.quiz.dto.mapper.QuizMapper;
 import dev.jpfsgs.quizzapp.quiz.dto.request.CreateQuizDTO;
@@ -54,7 +55,22 @@ public class QuizService {
                 .toList();
     }
 
+    //Verify if the questions and options are not empty,
+    // and if the answer index is valid
+    private boolean validateQuiz(CreateQuizDTO quiz){
+        return !quiz.getQuestions().isEmpty() &&
+        quiz.getQuestions().stream().allMatch(question ->
+            !question.getOptions().isEmpty() &&
+            question.getAnswerIndex() < question.getOptions().size() &&
+            question.getAnswerIndex() >= 0
+        );
+    }
+
     public QuizDTO save(CreateQuizDTO quizDTO, UUID userId) {
+        if(!validateQuiz(quizDTO)){
+            throw new InvalidQuizException("Quiz not valid");
+        }
+
         Quiz quiz = quizMapper.toQuiz(quizDTO);
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new UserNotFoundException("User not found")

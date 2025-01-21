@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -68,7 +69,7 @@ public class QuizController {
             mediaType = "application/json",
             schema = @Schema(implementation = ErrorDetails.class)
     ))
-    public ResponseEntity<QuizDTO> createQuiz(@RequestBody CreateQuizDTO quiz, JwtAuthenticationToken token) {
+    public ResponseEntity<QuizDTO> createQuiz(@Valid @RequestBody CreateQuizDTO quiz, JwtAuthenticationToken token) {
         UUID userId = UUID.fromString(token.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(quizService.save(quiz, userId));
     }

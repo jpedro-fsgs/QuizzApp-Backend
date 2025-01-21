@@ -12,8 +12,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.InvalidClassException;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
